@@ -1,5 +1,6 @@
-import pytest
+import pytest, os
 from datetime import datetime, timedelta
+os.environ['TESTING'] = '1'
 from app import db
 from models import Drug
 

@@ -1,4 +1,5 @@
-import pytest
+import pytest, os
+os.environ['TESTING'] = '1'
 from models import Message, User, db
 
 def test_messages_page_requires_login(client, init_database):

@@ -1,9 +1,14 @@
-import pytest
+# tests/conftest.py
 import os
+
+# MUST set this before importing app
+os.environ['TESTING'] = '1'
+import pytest
+
 import tempfile
 from datetime import datetime, timedelta
 # Must set TESTING before importing app
-os.environ['TESTING'] = '1'
+
 # Import your app and models
 from app import app as flask_app
 from app import db

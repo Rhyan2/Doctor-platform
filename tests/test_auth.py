@@ -1,4 +1,5 @@
-import pytest
+import pytest,os
+os.environ['TESTING'] = '1'
 from models import User,db
 
 def test_user_creation(client, init_database):
