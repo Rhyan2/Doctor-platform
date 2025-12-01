@@ -6,10 +6,10 @@ from datetime import datetime
 import os
 import os
 
-DB_USER = os.environ.get("DB_USER", "root")
-DB_PASSWORD = os.environ.get("DB_PASSWORD", "")
-DB_HOST = os.environ.get("DB_HOST", "localhost")
-DB_NAME = os.environ.get("DB_NAME", "inventory")
+DB_USER = os.environ.get("MYSQL_USER", "root")
+DB_PASSWORD = os.environ.get("MYSQL_ROOT_PASSWORD", "")
+DB_HOST = os.environ.get("MYSQL_HOST", "localhost")
+DB_NAME = os.environ.get("MYSQL_DATABASE", "inventory")
 
 
 
