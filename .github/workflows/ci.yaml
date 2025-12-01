@@ -21,13 +21,13 @@ jobs:
         ports:
           - 3306:3306
         options: >-
-          --health-cmd="mysqladmin ping --silent"
+          --health-cmd="mysqladmin ping -h localhost --silent"
           --health-interval=10s
           --health-timeout=5s
-          --health-retries=3
+          --health-retries=5
 
     env:
-      DB_HOST: 127.0.0.1
+      DB_HOST: mysql          # Service name as host
       DB_PORT: 3306
       DB_USER: testuser
       DB_PASSWORD: testpass
@@ -48,10 +48,12 @@ jobs:
           pip install -r requirements.txt
           pip install pytest pymysql
 
-      - name: Wait for MySQL
+      - name: Wait for MySQL to be ready
         run: |
           echo "Waiting for MySQL to be ready..."
-          until mysqladmin ping -h "$DB_HOST" --silent; do
+          for i in {1..30}; do
+            mysqladmin ping -h "$DB_HOST" -u "$DB_USER" -p"$DB_PASSWORD" --silent && break
+            echo "MySQL not ready yet... sleeping 5s"
             sleep 5
           done
 
