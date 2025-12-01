@@ -1,0 +1,44 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: doctorplatform-web
+spec:
+  type: LoadBalancer
+  selector:
+    app: doctorplatform-web
+  ports:
+    - port: 80
+      targetPort: 5000
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: doctorplatform-web
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: doctorplatform-web
+  template:
+    metadata:
+      labels:
+        app: doctorplatform-web
+    spec:
+      containers:
+        - name: flask-app
+          image: bege352/doctorplatform-web:latest
+          ports:
+            - containerPort: 5000
+          env:
+            - name: FLASK_ENV
+              value: "production"
+            - name: SECRET_KEY
+              value: "your-production-secret-key-change-this"
+            - name: MYSQL_USER
+              value: "root"
+            - name: MYSQL_PASSWORD
+              value: "rootpassword"
+            - name: MYSQL_DATABASE
+              value: "inventory"
+            - name: MYSQL_HOST
+              value: "db"

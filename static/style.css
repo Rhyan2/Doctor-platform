@@ -1,0 +1,360 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    background-color: #f4f4f4;
+}
+
+.navbar {
+    background-color: #2c3e50;
+    color: white;
+    padding: 1rem 0;
+}
+
+.nav-container {
+    width: 90%;
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.nav-brand h2 {
+    margin: 0;
+}
+
+.nav-links {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+}
+
+.nav-links a {
+    color: white;
+    text-decoration: none;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    transition: background-color 0.3s;
+}
+
+.nav-links a:hover {
+    background-color: #34495e;
+}
+
+.container {
+    width: 90%;
+    max-width: 1200px;
+    margin: 2rem auto;
+    padding: 0 1rem;
+}
+
+.alert {
+    padding: 0.75rem 1.25rem;
+    margin-bottom: 1rem;
+    border: 1px solid transparent;
+    border-radius: 0.25rem;
+}
+
+.alert-success {
+    color: #155724;
+    background-color: #d4edda;
+    border-color: #c3e6cb;
+}
+
+.alert-error {
+    color: #721c24;
+    background-color: #f8d7da;
+    border-color: #f5c6cb;
+}
+
+.alert-info {
+    color: #0c5460;
+    background-color: #d1ecf1;
+    border-color: #bee5eb;
+}
+
+/* Auth Forms */
+.auth-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 80vh;
+}
+
+.auth-form {
+    background: white;
+    padding: 2rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    width: 100%;
+    max-width: 400px;
+}
+
+.auth-form h2 {
+    margin-bottom: 1.5rem;
+    text-align: center;
+    color: #2c3e50;
+}
+
+.form-group {
+    margin-bottom: 1rem;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: bold;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 1rem;
+}
+
+/* Buttons */
+.btn {
+    display: inline-block;
+    padding: 0.75rem 1.5rem;
+    border: none;
+    border-radius: 4px;
+    text-decoration: none;
+    text-align: center;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.btn-primary {
+    background-color: #3498db;
+    color: white;
+}
+
+.btn-primary:hover {
+    background-color: #2980b9;
+}
+
+.btn-secondary {
+    background-color: #95a5a6;
+    color: white;
+}
+
+.btn-secondary:hover {
+    background-color: #7f8c8d;
+}
+
+.btn-danger {
+    background-color: #e74c3c;
+    color: white;
+}
+
+.btn-danger:hover {
+    background-color: #c0392b;
+}
+
+/* Dashboard */
+.dashboard h1 {
+    margin-bottom: 2rem;
+    color: #2c3e50;
+}
+
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+
+.stat-card {
+    background: white;
+    padding: 1.5rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    text-align: center;
+}
+
+.stat-card.warning {
+    border-left: 4px solid #f39c12;
+}
+
+.stat-card.danger {
+    border-left: 4px solid #e74c3c;
+}
+
+.stat-number {
+    font-size: 2rem;
+    font-weight: bold;
+    color: #2c3e50;
+}
+
+.dashboard-sections {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+}
+
+.section {
+    background: white;
+    padding: 1.5rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.message-preview {
+    padding: 0.75rem;
+    border-bottom: 1px solid #eee;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.message-preview.urgent {
+    border-left: 4px solid #e74c3c;
+    background-color: #ffeaea;
+}
+
+.action-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+/* Tables */
+.table {
+    width: 100%;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    overflow: hidden;
+}
+
+.table-header {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    background-color: #34495e;
+    color: white;
+    padding: 1rem;
+    font-weight: bold;
+}
+
+.table-row {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    padding: 1rem;
+    border-bottom: 1px solid #eee;
+    align-items: center;
+}
+
+.table-row:hover {
+    background-color: #f8f9fa;
+}
+
+.table-row.expired {
+    background-color: #ffeaea;
+}
+
+.actions {
+    display: flex;
+    gap: 0.5rem;
+}
+
+/* Forms */
+.form-container {
+    background: white;
+    padding: 2rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.form-container h2 {
+    margin-bottom: 1.5rem;
+    color: #2c3e50;
+}
+
+.page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+}
+
+@media (max-width: 768px) {
+    .dashboard-sections {
+        grid-template-columns: 1fr;
+    }
+    
+    .nav-container {
+        flex-direction: column;
+        gap: 1rem;
+    }
+    
+    .nav-links {
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+}
+/* Password Requirements Styling */
+.password-requirements {
+    background: #e8f4fd;
+    border-left: 4px solid #3498db;
+    padding: 1rem;
+    margin-bottom: 1.5rem;
+    border-radius: 4px;
+}
+
+.password-requirements h4 {
+    margin: 0 0 0.5rem 0;
+    color: #2c3e50;
+    font-size: 0.9rem;
+}
+
+.password-requirements ul {
+    margin: 0;
+    padding-left: 1.5rem;
+    font-size: 0.8rem;
+    color: #555;
+}
+
+.password-requirements li {
+    margin-bottom: 0.25rem;
+}
+
+/* Password strength indicator */
+.password-strength {
+    margin-top: 0.5rem;
+    height: 4px;
+    border-radius: 2px;
+    transition: all 0.3s ease;
+}
+
+.strength-weak {
+    background-color: #e74c3c;
+    width: 25%;
+}
+
+.strength-medium {
+    background-color: #f39c12;
+    width: 50%;
+}
+
+.strength-strong {
+    background-color: #2ecc71;
+    width: 75%;
+}
+
+.strength-very-strong {
+    background-color: #27ae60;
+    width: 100%;
+}

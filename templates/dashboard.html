@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="dashboard">
+    <h1>Dashboard</h1>
+    
+    <div class="stats-grid">
+        <div class="stat-card">
+            <h3>Total Drugs</h3>
+            <p class="stat-number">{{ total_drugs }}</p>
+        </div>
+        <div class="stat-card warning">
+            <h3>Expired Drugs</h3>
+            <p class="stat-number">{{ expired_drugs }}</p>
+        </div>
+        <div class="stat-card danger">
+            <h3>Low Stock</h3>
+            <p class="stat-number">{{ low_stock }}</p>
+        </div>
+    </div>
+
+    <div class="dashboard-sections">
+        <div class="section">
+            <h3>Recent Messages</h3>
+            {% for message in recent_messages %}
+                <div class="message-preview {% if message.is_urgent %}urgent{% endif %}">
+                    <strong>{{ message.title }}</strong>
+                    <span>by {{ message.sender.username }}</span>
+                    <small>{{ message.timestamp.strftime('%Y-%m-%d %H:%M') }}</small>
+                </div>
+            {% endfor %}
+            <a href="{{ url_for('messages') }}" class="btn btn-secondary">View All Messages</a>
+        </div>
+
+        <div class="section">
+            <h3>Quick Actions</h3>
+            <div class="action-buttons">
+                <a href="{{ url_for('add_drug') }}" class="btn btn-primary">Add New Drug</a>
+                <a href="{{ url_for('add_message') }}" class="btn btn-primary">Send Message</a>
+                <a href="{{ url_for('drugs') }}" class="btn btn-secondary">View All Drugs</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

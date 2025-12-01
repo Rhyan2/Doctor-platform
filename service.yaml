@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: doctorplatform-web
+spec:
+  type: LoadBalancer
+  selector:
+    app: doctorplatform-web
+  ports:
+    - port: 80
+      targetPort: 5000   # same port as your container app
