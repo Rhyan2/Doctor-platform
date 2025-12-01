@@ -7,7 +7,7 @@ import os
 import os
 
 DB_USER = os.environ.get("MYSQL_USER", "root")
-DB_PASSWORD = os.environ.get("MYSQL_ROOT_PASSWORD", "")
+DB_PASSWORD = os.environ.get("MYSQL_PASSWORD", "")
 DB_HOST = os.environ.get("MYSQL_HOST", "localhost")
 DB_NAME = os.environ.get("MYSQL_DATABASE", "inventory")
 
