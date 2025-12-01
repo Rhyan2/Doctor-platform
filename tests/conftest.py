@@ -2,7 +2,8 @@ import pytest
 import os
 import tempfile
 from datetime import datetime, timedelta
-
+# Must set TESTING before importing app
+os.environ['TESTING'] = '1'
 # Import your app and models
 from app import app as flask_app
 from app import db
@@ -12,6 +13,7 @@ from models import User, Drug, Message
 def app():
     """Create and configure a Flask app for testing."""
     # Create a temporary database
+    
     db_fd, db_path = tempfile.mkstemp()
     
     flask_app.config.update({
