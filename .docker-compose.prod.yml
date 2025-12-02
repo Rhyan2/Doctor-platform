@@ -1,0 +1,13 @@
+# FOR TESTING DOCKER HUB IMAGE LOCALLY
+version: '3.8'
+services:
+  web:
+    image: bege352/doctorplatform-web:latest
+    ports:
+      - "5001:5000"  # Different port to avoid conflict
+    environment:
+      DATABASE_URL: ${DATABASE_URL:-postgresql://postgres:272902@host.docker.internal:5432/inventory}
+      SECRET_KEY: ${SECRET_KEY:-test-secret-key}
+      FLASK_ENV: production
+    # For Windows/Mac, host.docker.internal works
+    # For Linux, use the actual IP of your host machine

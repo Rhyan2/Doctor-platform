@@ -1,49 +1,50 @@
-version: '3.8'
-
 services:
   web:
     build: .
     ports:
       - "5000:5000"
     environment:
-      - FLASK_ENV=production
-      - SECRET_KEY=your-production-secret-key-change-this
-      - MYSQL_USER=root
-      - MYSQL_PASSWORD=rootpassword
-      - MYSQL_DATABASE=inventory
-      - MYSQL_HOST=db
+      FLASK_ENV: production
+      SECRET_KEY: your-production-secret-key-change-this
+      DATABASE_URL: postgresql://postgres:272902@db:5432/inventory
+    depends_on:
+      db:
+        condition: service_healthy
     volumes:
       - ./instance:/app/instance
-    depends_on:
-      - db
     restart: unless-stopped
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:5000/"]
-      interval: 30s
-      timeout: 10s
-      retries: 3
+    # Remove healthcheck for now to debug
+    # healthcheck:
+    #   test: ["CMD", "curl", "-f", "http://localhost:5000/"]
+    #   interval: 30s
+    #   timeout: 10s
+    #   retries: 3
+    # Add command to wait for db and initialize
+    command: >
+      sh -c "
+      echo 'Waiting for database to be ready...' &&
+      sleep 10 &&
+      echo 'Starting application...' &&
+      python app.py
+      "
 
   db:
-    image: mysql:8.0
+    image: postgres:15
     environment:
-      MYSQL_ROOT_PASSWORD: rootpassword
-      MYSQL_DATABASE: inventory
-      
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 272902
+      POSTGRES_DB: inventory
+      POSTGRES_HOST_AUTH_METHOD: trust
     ports:
-      - "3306:3306"
+      - "5432:5432"
     volumes:
-      - mysql_data:/var/lib/mysql
-    command: --default-authentication-plugin=mysql_native_password
-
-  phpmyadmin:
-    image: phpmyadmin/phpmyadmin
-    environment:
-      PMA_HOST: db
-      MYSQL_ROOT_PASSWORD: rootpassword
-    ports:
-      - "8080:80"
-    depends_on:
-      - db
+      - postgres_data:/var/lib/postgresql/data
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d inventory"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
 volumes:
-  mysql_data:
+  postgres_data:

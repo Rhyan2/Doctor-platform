@@ -7,7 +7,7 @@ import pytest
 
 import tempfile
 from datetime import datetime, timedelta
-# Must set TESTING before importing app
+
 
 # Import your app and models
 from app import app as flask_app

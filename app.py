@@ -2,14 +2,18 @@ from flask import Flask, render_template, request, redirect, url_for, flash, jso
 from flask_login import LoginManager, login_user, logout_user, login_required, current_user
 from models import db, User, Drug, Message
 from datetime import datetime
-
+from dotenv import load_dotenv
 import os
-import os
 
-DB_USER = os.environ.get("MYSQL_USER", "root")
-DB_PASSWORD = os.environ.get("MYSQL_PASSWORD", "")
-DB_HOST = os.environ.get("MYSQL_HOST", "localhost")
-DB_NAME = os.environ.get("MYSQL_DATABASE", "inventory")
+# Load .env file
+load_dotenv()  #
+
+
+
+#DB_USER = os.environ.get("MYSQL_USER", "root")
+#DB_PASSWORD = os.environ.get("MYSQL_PASSWORD", "")
+#DB_HOST = os.environ.get("MYSQL_HOST", "localhost")
+#DB_NAME = os.environ.get("MYSQL_DATABASE", "inventory")
 
 
 
@@ -24,7 +28,21 @@ app.config['SECRET_KEY'] = 'your-secret-key-here-change-in-production'
 if os.environ.get("TESTING") == "1":
     app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///:memory:'
 else:
-    app.config['SQLALCHEMY_DATABASE_URI'] = f"mysql+pymysql://{DB_USER}:{DB_PASSWORD}@{DB_HOST}/{DB_NAME}"
+    # Get DATABASE_URL from environment with fallback
+    database_url = os.environ.get('DATABASE_URL')
+    
+    # Debug: Print what we're getting
+    print(f"DATABASE_URL from env: {database_url}")
+    
+    if database_url:
+        # Ensure it's using the correct driver
+        if database_url.startswith('postgresql://'):
+            database_url = database_url.replace('postgresql://', 'postgresql+psycopg2://', 1)
+        app.config['SQLALCHEMY_DATABASE_URI'] = database_url
+    else:
+        # Fallback for local development
+        app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql+psycopg2://postgres:272902@localhost:5432/inventory'
+    #app.config['SQLALCHEMY_DATABASE_URI'] = f"mysql+pymysql://{DB_USER}:{DB_PASSWORD}@{DB_HOST}/{DB_NAME}"
 
 # Initialize extensions
 db.init_app(app)
@@ -287,15 +305,24 @@ def expiry_alerts():
 
 
     # Make sure these are available for import
+# At the bottom of app.py, replace the if __name__ == '__main__' block with:
+
 if __name__ == '__main__':
     with app.app_context():
-        db.create_all()
-        print("Database tables created!")
-        
-        users = User.query.all()
-        print(f"Total users in database: {len(users)}")
-        
-        drugs = Drug.query.all()
-        print(f"Total drugs in database: {len(drugs)}")
-        
-    app.run(debug=True)
+        try:
+            print("Creating database tables...")
+            db.create_all()
+            print("Database tables created!")
+            
+            users = User.query.all()
+            print(f"Total users in database: {len(users)}")
+            
+            drugs = Drug.query.all()
+            print(f"Total drugs in database: {len(drugs)}")
+            
+        except Exception as e:
+            print(f"Error during database initialization: {e}")
+            print("This might be normal if the database isn't ready yet...")
+    
+    # Run the app on all interfaces
+    app.run(host='0.0.0.0', port=5000, debug=False)
