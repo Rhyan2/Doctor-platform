@@ -53,4 +53,12 @@ jobs:
         run: |
           IMAGE_NAME=bege352/doctorplatform-web
           docker push $IMAGE_NAME:latest
-          docker push $IMAGE_NAME:${{ github.sha }}  
+          docker push $IMAGE_NAME:${{ github.sha }} 
+      # 9. Trigger deployment on Render.com 
+      - name: Trigger Render Deployment
+        run: |
+          curl -X POST \
+            -H "Authorization: Bearer ${{ secrets.RENDER_API_KEY }}" \
+            -H "Content-Type: application/json" \
+            -d '{"clearCache": true}' \
+            https://api.render.com/v1/services/${{ secrets.RENDER_SERVICE_ID }}/deploys    
