@@ -6,9 +6,7 @@ from dotenv import load_dotenv
 import os
 
 # Load .env file
-load_dotenv()  #
-
-
+load_dotenv()  
 
 #DB_USER = os.environ.get("MYSQL_USER", "root")
 #DB_PASSWORD = os.environ.get("MYSQL_PASSWORD", "")
@@ -50,6 +48,15 @@ login_manager = LoginManager()
 login_manager.init_app(app)
 login_manager.login_view = 'login'
 login_manager.login_message = 'Please log in to access this page.'
+
+# Initialize database tables - MUST BE HERE, AFTER app is created
+with app.app_context():
+    try:
+        print("Checking/creating database tables...")
+        db.create_all()
+        print("Database setup completed!")
+    except Exception as e:
+        print(f"Database initialization error: {e}")
 
 @login_manager.user_loader
 def load_user(user_id):
@@ -308,21 +315,5 @@ def expiry_alerts():
 # At the bottom of app.py, replace the if __name__ == '__main__' block with:
 
 if __name__ == '__main__':
-    with app.app_context():
-        try:
-            print("Creating database tables...")
-            db.create_all()
-            print("Database tables created!")
-            
-            users = User.query.all()
-            print(f"Total users in database: {len(users)}")
-            
-            drugs = Drug.query.all()
-            print(f"Total drugs in database: {len(drugs)}")
-            
-        except Exception as e:
-            print(f"Error during database initialization: {e}")
-            print("This might be normal if the database isn't ready yet...")
-    
-    # Run the app on all interfaces
-    app.run(host='0.0.0.0', port=5000, debug=False)
+    # No need to create tables here since we do it above
+    app.run(host='0.0.0.0', port=5000, debug=True)  # Changed debug=True for local testing
